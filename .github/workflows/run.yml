@@ -1,0 +1,32 @@
+name: X-Sniper Runner
+on:
+  schedule:
+    - cron: '*/15 * * * *' # Every 15 mins
+  workflow_dispatch: # Allows manual trigger from iPhone
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with: {python-version: '3.10'}
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+      - name: Run Sniper
+        env:
+          HANDLE: ${{ secrets.HANDLE }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          X_USERNAME: ${{ secrets.X_USERNAME }}
+          X_PASSWORD: ${{ secrets.X_PASSWORD }}
+        run: python main.py
+      - name: Save Database
+        run: |
+          git config --global user.name "Actions Bot"
+          git config --global user.email "bot@github.com"
+          git add database.db state.json
+          git commit -m "Update state" || echo "No changes"
+          git push
