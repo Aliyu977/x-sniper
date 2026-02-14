@@ -1,0 +1,20 @@
+# --- Security & Sessions (CRITICAL) ---
+# Prevents sharing active login cookies publicly
+state.json
+storage_state.json
+
+# --- Python System Files ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# --- Operating System Clutter ---
+.DS_Store
+Thumbs.db
+
+# --- Logs & Performance ---
+*.log
+pip-log.txt
