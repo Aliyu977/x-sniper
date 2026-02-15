@@ -42,7 +42,7 @@ async def run_sniper():
 
             encoded_query = urllib.parse.quote(query)
             search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
-            await page.goto(search_url, wait_until="networkidle")
+            await page.goto(search_url, wait_until="domcontentloaded", timeout=60000)
 
             try:
                 await page.wait_for_selector("article", timeout=10000)
