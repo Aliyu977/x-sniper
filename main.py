@@ -40,8 +40,8 @@ async def run_sniper():
         for query in QUERIES:
             import urllib.parse
 
-encoded_query = urllib.parse.quote(query)
-search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
+            encoded_query = urllib.parse.quote(query)
+            search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
             await page.goto(search_url)
             await page.wait_for_timeout(random.randint(2000, 5000)) # Human delay
             
@@ -70,8 +70,8 @@ search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
                         conn.commit()
                         print(f"Tweet {t_id} → Likes: {likes}, Velocity: {velocity}")
                 except Exception as e:
-    print("Error:", e)
-    continue
+                    print("Error:", e)
+                continue
 
         await context.storage_state(path="state.json")
         await browser.close()
