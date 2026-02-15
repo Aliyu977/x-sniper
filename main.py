@@ -43,6 +43,7 @@ async def run_sniper():
             encoded_query = urllib.parse.quote(query)
             search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
             await page.goto(search_url)
+            print("Page title:", await page.title())
             await page.wait_for_timeout(random.randint(2000, 5000)) # Human delay
             
             tweets = await page.query_selector_all("article")
