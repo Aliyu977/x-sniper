@@ -38,7 +38,10 @@ async def run_sniper():
         conn = init_db()
 
         for query in QUERIES:
-            search_url = f"https://twitter.com/search?q={query}&f=live"
+            import urllib.parse
+
+encoded_query = urllib.parse.quote(query)
+search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
             await page.goto(search_url)
             await page.wait_for_timeout(random.randint(2000, 5000)) # Human delay
             
