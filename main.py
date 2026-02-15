@@ -42,11 +42,18 @@ async def run_sniper():
 
             encoded_query = urllib.parse.quote(query)
             search_url = f"https://twitter.com/search?q={encoded_query}&f=live"
-            await page.goto(search_url)
+            await page.goto(search_url, wait_until="networkidle")
+
+            try:
+            await page.wait_for_selector("article", timeout=10000)
+        except:
+            print("No articles found on page — possible login wall or block")
             print("Page title:", await page.title())
-            await page.wait_for_timeout(random.randint(2000, 5000)) # Human delay
-            
+            continue
+
             tweets = await page.query_selector_all("article")
+            print(f"Found {len(tweets)} tweets for query: {query}")
+            print("Page title:", await page.title())
             print(f"Found {len(tweets)} tweets for query: {query}")
             for tweet in tweets:
                 try:
