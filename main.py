@@ -43,6 +43,7 @@ async def run_sniper():
             await page.wait_for_timeout(random.randint(2000, 5000)) # Human delay
             
             tweets = await page.query_selector_all("article")
+            print(f"Found {len(tweets)} tweets for query: {query}")
             for tweet in tweets:
                 try:
                     # Extract Data
@@ -64,7 +65,10 @@ async def run_sniper():
                         notify(f"https://x.com{link}", likes, velocity)
                         conn.execute("INSERT INTO tweets VALUES (?, ?)", (t_id, velocity))
                         conn.commit()
-                except: continue
+                        print(f"Tweet {t_id} → Likes: {likes}, Velocity: {velocity}")
+                except Exception as e:
+    print("Error:", e)
+    continue
 
         await context.storage_state(path="state.json")
         await browser.close()
