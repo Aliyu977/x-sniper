@@ -45,10 +45,10 @@ async def run_sniper():
             await page.goto(search_url, wait_until="networkidle")
 
             try:
-            await page.wait_for_selector("article", timeout=10000)
-        except:
-            print("No articles found on page — possible login wall or block")
-            print("Page title:", await page.title())
+                await page.wait_for_selector("article", timeout=10000)
+            except:
+                print("No articles found on page — possible login wall or block")
+                print("Page title:", await page.title())
             continue
 
             tweets = await page.query_selector_all("article")
